@@ -11,19 +11,6 @@ class CalcControler {
         this.initButtonsEvents();
     }
 
-    initButtonsEvents() {
-
-        let buttons = document.querySelectorAll('#buttons > g, #parts > g');
-
-        buttons.forEach(btn => {
-            
-            btn.addEventListener('click', event => {
-
-               console.log(btn.className.baseVal.replace('btn-', '')); 
-            });
-        });
-    }
-
     initialize() {
 
         this.setDisplayTime();
@@ -31,6 +18,32 @@ class CalcControler {
         setInterval(() => {
             this.setDisplayTime();
         }, 1000);  
+    }
+
+    addEventListenerAll(element, event, fn) {
+
+        event.split(' ').forEach(event => {
+
+            element.addEventListener(event, fn, false);
+        });
+    }
+
+    initButtonsEvents() {
+
+        let buttons = document.querySelectorAll('#buttons > g, #parts > g');
+
+        buttons.forEach(btn => {
+            
+            this.addEventListenerAll(btn, 'click drag', e => {
+
+               console.log(btn.className.baseVal.replace('btn-', '')); 
+            });
+
+            this.addEventListenerAll(btn, 'mouseover mouseup mousedown', e => {
+
+                btn.style.cursor = 'pointer' 
+             });
+        });
     }
 
     setDisplayTime() {
